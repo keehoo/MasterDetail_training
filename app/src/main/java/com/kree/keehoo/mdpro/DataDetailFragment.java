@@ -10,28 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * A fragment representing a single Data detail screen.
- * This fragment is either contained in a {@link DataListActivity}
- * in two-pane mode (on tablets) or a {@link DataDetailActivity}
- * on handsets.
- */
+
 public class DataDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
 
-
-    /**
-     * The dummy content this fragment is presenting.
-     */
     private Obj mItem;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public DataDetailFragment() {
     }
 
@@ -41,12 +24,9 @@ public class DataDetailFragment extends Fragment {
 
         if (getArguments().containsKey(Keys.KLUCZ)) {
             Log.d("Fragment", "contains key, key value = "+Keys.KLUCZ);
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = new Obj(Keys.KLUCZ, "Jakies nazwisko");
-            Log.d("Fragment mItem = ", mItem.getName() + " - " + mItem.getImage());
 
+            mItem = new Obj(getArguments().getString(Keys.KLUCZ), "Jakies nazwisko");
+            Log.d("Fragment mItem = ", mItem.getName() + " - " + mItem.getImage());
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
