@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.squareup.picasso.Picasso;
 
@@ -34,25 +30,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * An activity representing a list of Datas. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link DataDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
+
 public class DataListActivity extends AppCompatActivity {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private boolean mTwoPane;
     private List<Obj> values;
-
-
-
     private String result;
 
     @Override
@@ -61,13 +43,6 @@ public class DataListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_list);
 
         values = new ArrayList<>();
-        /*values.add(new Obj("John ", "Rambo"));
-        values.add(new Obj("Rocky ", "Balboa"));
-        values.add(new Obj("Arndold", "Schwarz"));
-        values.add(new Obj("Anthony", "Hopkins"));
-*/
-
-
         View recyclerView = findViewById(R.id.data_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
@@ -76,10 +51,6 @@ public class DataListActivity extends AppCompatActivity {
         task.execute();
 
         if (findViewById(R.id.data_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
             mTwoPane = true;
         }
     }
@@ -90,13 +61,12 @@ public class DataListActivity extends AppCompatActivity {
     }
 
 
-
     public void start() {
-       // tv.setText("Uruchomienie z onPosta \n  " + getResult());
+        // tv.setText("Uruchomienie z onPosta \n  " + getResult());
         try {
             JSONArray ja = new JSONArray(getResult());
             values.clear();
-            for (int i = 0; i< ja.length() ; i++) {
+            for (int i = 0; i < ja.length(); i++) {
                 JSONObject jo = (JSONObject) ja.get(i);
                 values.add(new Obj(jo.getString("name"), jo.getString("image")));
             }
@@ -130,10 +100,8 @@ public class DataListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.obj = mValues.get(position);
-
             holder.name.setText(holder.obj.getName());
             setTestImage(holder.obj, context, holder.image);
-
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -150,7 +118,7 @@ public class DataListActivity extends AppCompatActivity {
                         Intent intent = new Intent(context, DataDetailActivity.class);
                         intent.putExtra(Keys.KLUCZ, holder.obj.getName());
                         Log.d(Keys.KLUCZ, holder.obj.getName());
-                        Log.d("DataListActivity", "obj.getName = "+holder.obj.getName());
+                        Log.d("DataListActivity", "obj.getName = " + holder.obj.getName());
                         context.startActivity(intent);
                     }
                 }
@@ -162,7 +130,7 @@ public class DataListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
-        private void setTestImage(Obj dt, Context context , ImageView imageView) {
+        private void setTestImage(Obj dt, Context context, ImageView imageView) {
             Picasso.with(context)
                     .load(dt.getImage())
                     .placeholder(R.drawable.c)
