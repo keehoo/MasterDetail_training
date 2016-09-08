@@ -42,10 +42,10 @@ public class DataListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_list);
 
         values = new ArrayList<>();
-        values.add(new Obj("Krzysiek", "Kubicki"));
-        values.add(new Obj("Stefan", "Stefanksi"));
-        values.add(new Obj("Maciej", "Podloch"));
-        values.add(new Obj("Milosz", "Dupowski"));
+        values.add(new Obj("John ", "Rambo"));
+        values.add(new Obj("Rocky ", "Balboa"));
+        values.add(new Obj("Arndold", "Schwarz"));
+        values.add(new Obj("Anthony", "Hopkins"));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
