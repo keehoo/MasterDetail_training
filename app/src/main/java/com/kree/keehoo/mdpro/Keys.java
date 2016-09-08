@@ -6,5 +6,5 @@ package com.kree.keehoo.mdpro;
 public class Keys {
 
     public static final String ARG_ITEM_ID = "default_item_id";
-    public static final String KLUCZ = "Dupa";
+    public static final String KLUCZ = "Default value";
 }
