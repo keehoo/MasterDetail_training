@@ -1,4 +1,4 @@
-package com.kree.keehoo.mdpro.activities;
+package com.kree.keehoo.mdpro.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -62,6 +62,8 @@ public class DataDetailActivity extends AppCompatActivity {
             Log.d(Keys.KLUCZ, getIntent().getStringExtra(Keys.KLUCZ));
             arguments.putString(Keys.KLUCZ,
                     getIntent().getStringExtra(Keys.KLUCZ));
+            arguments.putString(Keys.KLUCZ_IMAGE,
+                    getIntent().getStringExtra(Keys.KLUCZ_IMAGE));
             DataDetailFragment fragment = new DataDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

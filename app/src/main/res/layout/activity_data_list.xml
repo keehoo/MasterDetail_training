@@ -5,20 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.DataListActivity">
+    tools:context=".Activities.DataListActivity">
 
-
-
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include layout="@layout/data_list" />
-    </FrameLayout>
-
-
-
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.DataListActivity"
+            android:name=".Activities.DataListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,13 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.DataDetailActivity"
+            android:name=".Activities.DataDetailActivity"
             android:label="@string/title_data_detail"
-            android:parentActivityName=".activities.DataListActivity"
+            android:parentActivityName=".Activities.DataListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.DataListActivity" />
+                android:value=".Activities.DataListActivity" />
         </activity>
     </application>
 

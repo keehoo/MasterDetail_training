@@ -9,7 +9,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".activities.DataListActivity">
+    tools:context=".Activities.DataListActivity">
 
     <!--
     This layout is a two-pane layout for the Datas
@@ -26,9 +26,11 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".activities.DataListActivity"
+        tools:context=".Activities.DataListActivity"
         tools:listitem="@layout/data_list_content" />
 
+
+    <!-- tutaj bedzie dmuchany layout gdy mTwoPane == true -->
     <FrameLayout
         android:id="@+id/data_detail_container"
         android:layout_width="0dp"

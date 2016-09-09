@@ -29,7 +29,7 @@ public class DataDetailFragment extends Fragment {
         if (getArguments().containsKey(Keys.KLUCZ)) {
             Log.d("Fragment", "contains key, key value = "+Keys.KLUCZ);
 
-            mItem = new Obj(getArguments().getString(Keys.KLUCZ), "Jakies nazwisko");
+            mItem = new Obj(getArguments().getString(Keys.KLUCZ), getArguments().getString(Keys.KLUCZ_IMAGE));
             Log.d("Fragment mItem = ", mItem.getName() + " - " + mItem.getImage());
 
             Activity activity = this.getActivity();
@@ -50,6 +50,7 @@ public class DataDetailFragment extends Fragment {
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.data_detail)).setText(mItem.getName());
+            ((TextView) rootView.findViewById(R.id.data_detail2)).setText(mItem.getImage());
         }
 
         return rootView;

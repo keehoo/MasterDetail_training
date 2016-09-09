@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.DataDetailActivity"
+    tools:context=".Activities.DataDetailActivity"
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
@@ -34,6 +34,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <!-- DATA DETAIL CONTAINER -
+
+    TO WLASNIE SPRAWDZAMY KIEDY SPRAWDZAMY CZY BEDZIE mTwoPane czy nie
+
+    -->
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/data_detail_container"
         android:layout_width="match_parent"

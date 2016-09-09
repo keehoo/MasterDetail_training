@@ -7,4 +7,5 @@ public class Keys {
 
     public static final String ARG_ITEM_ID = "default_item_id";
     public static final String KLUCZ = "Default value";
+    public static final String KLUCZ_IMAGE = "Default Image";
 }

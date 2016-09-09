@@ -15,8 +15,8 @@ import com.kree.keehoo.mdpro.Fragments.DataDetailFragment;
 import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
 import com.kree.keehoo.mdpro.KeysAndConstants.Obj;
 import com.kree.keehoo.mdpro.R;
-import com.kree.keehoo.mdpro.activities.DataDetailActivity;
-import com.kree.keehoo.mdpro.activities.DataListActivity;
+import com.kree.keehoo.mdpro.Activities.DataDetailActivity;
+import com.kree.keehoo.mdpro.Activities.DataListActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class SimpleViewAdapter
     public void onBindViewHolder(final SimpleViewHolder holder, int position) {
         holder.obj = mValues.get(position);
         holder.name.setText(holder.obj.getName());
-        setTestImage(holder.obj, context, holder.image);
+        setImage(holder.obj, context, holder.image);
         holder.mView.setSelected(focusedItem == position);
 
 
@@ -61,7 +61,8 @@ public class SimpleViewAdapter
                 if (mTwoPanes) {
                     holder.mView.setSelected(true);
                     Bundle arguments = new Bundle();
-                    arguments.putString(Keys.KLUCZ, holder.obj.getName());  // tutaj musze przeslac Id
+                    arguments.putString(Keys.KLUCZ, holder.obj.getName());
+                    arguments.putString(Keys.KLUCZ_IMAGE, holder.obj.getImage());   // tutaj musze przeslac Id
                     DataDetailFragment fragment = new DataDetailFragment();
                     fragment.setArguments(arguments);
 
@@ -87,7 +88,7 @@ public class SimpleViewAdapter
         return mValues.size();
     }
 
-    private void setTestImage(Obj dt, Context context, ImageView imageView) {
+    private void setImage(Obj dt, Context context, ImageView imageView) {
         Picasso.with(context)
                 .load(dt.getImage())
                 .placeholder(R.drawable.c)
