@@ -6,9 +6,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,30 +38,35 @@ public class DataListActivity extends AppCompatActivity {
     private boolean mTwoPane;
     private List<Obj> values;
     private String result;
+    private View recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_list);
-
+        recyclerView = findViewById(R.id.data_list);
+        if (findViewById(R.id.data_detail_container) != null) {
+            mTwoPane = true;
+        }
         values = new ArrayList<>();
-        View recyclerView = findViewById(R.id.data_list);
+
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
         Task task = new Task(this);
         task.execute();
-
-        if (findViewById(R.id.data_detail_container) != null) {
-            mTwoPane = true;
-        }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        SimpleItemRecyclerViewAdapter adapter = new SimpleItemRecyclerViewAdapter(this, values);
+        SimpleViewAdapter adapter = new SimpleViewAdapter(this, values, mTwoPane);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
+    public void restartRV() {
+        setupRecyclerView((RecyclerView) recyclerView);
 
+    }
 
     public void start() {
         // tv.setText("Uruchomienie z onPosta \n  " + getResult());
@@ -78,81 +85,7 @@ public class DataListActivity extends AppCompatActivity {
         }
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Obj> mValues;
-        Context context;
-
-        public SimpleItemRecyclerViewAdapter(Context context, List<Obj> items) {
-            mValues = items;
-            this.context = context;
-
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.data_list_content, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.obj = mValues.get(position);
-            holder.name.setText(holder.obj.getName());
-            setTestImage(holder.obj, context, holder.image);
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(Keys.KLUCZ, holder.obj.getName());  // tutaj musze przeslac Id
-                        DataDetailFragment fragment = new DataDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.data_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, DataDetailActivity.class);
-                        intent.putExtra(Keys.KLUCZ, holder.obj.getName());
-                        Log.d(Keys.KLUCZ, holder.obj.getName());
-                        Log.d("DataListActivity", "obj.getName = " + holder.obj.getName());
-                        context.startActivity(intent);
-                    }
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return mValues.size();
-        }
-
-        private void setTestImage(Obj dt, Context context, ImageView imageView) {
-            Picasso.with(context)
-                    .load(dt.getImage())
-                    .placeholder(R.drawable.c)
-                    .error(R.drawable.c)
-                    .into(imageView);
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final TextView name;
-            public final ImageView image;
-            public final View mView;
-            public Obj obj;
-
-            public ViewHolder(View view) {
-                super(view);
-                mView = view;
-                name = (TextView) view.findViewById(R.id.id);
-                image = (ImageView) view.findViewById(R.id.content);
-            }
-
-        }
-    }
 
     public static class Task extends AsyncTask<Void, Void, String> {
         private DataListActivity activity;
@@ -172,6 +105,8 @@ public class DataListActivity extends AppCompatActivity {
             //activity.tv.setText(s);
             activity.setResult(s);
             activity.start();
+            activity.restartRV();
+
 
         }
 
