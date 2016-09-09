@@ -1,4 +1,4 @@
-package com.kree.keehoo.mdpro;
+package com.kree.keehoo.mdpro.Fragments;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
+import com.kree.keehoo.mdpro.KeysAndConstants.Obj;
+import com.kree.keehoo.mdpro.R;
 
 
 public class DataDetailFragment extends Fragment {

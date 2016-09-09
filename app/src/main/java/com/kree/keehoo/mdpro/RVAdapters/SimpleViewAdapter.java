@@ -1,10 +1,8 @@
-package com.kree.keehoo.mdpro;
+package com.kree.keehoo.mdpro.RVAdapters;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kree.keehoo.mdpro.Fragments.DataDetailFragment;
+import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
+import com.kree.keehoo.mdpro.KeysAndConstants.Obj;
+import com.kree.keehoo.mdpro.R;
+import com.kree.keehoo.mdpro.activities.DataDetailActivity;
+import com.kree.keehoo.mdpro.activities.DataListActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
