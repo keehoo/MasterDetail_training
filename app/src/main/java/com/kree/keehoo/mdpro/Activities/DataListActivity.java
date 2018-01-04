@@ -70,6 +70,12 @@ public class DataListActivity extends AppCompatActivity {
                 showSelectedDetailScreen(currentObject, currentPosition);
             }
         });
+        adapter.setTouchListener(new SimpleViewAdapter.OnElementTouchListener() {
+            @Override
+            public void onTouch(ElementOfTheTappticList currentObject, int currentPosition) {
+                Toast.makeText(DataListActivity.this, "on Touch !!!", Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

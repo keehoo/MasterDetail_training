@@ -23,6 +23,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
     private Context context;
     private int focusedItem = 0;
     OnElementClickListener listener;
+    OnElementTouchListener touchListener;
 
     boolean mTwoPanes;
 
@@ -36,6 +37,10 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
 
     public void setListener(OnElementClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setTouchListener(OnElementTouchListener touchListener) {
+        this.touchListener = touchListener;
     }
 
     @Override
@@ -113,6 +118,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
             this.adapter = adapter;
 
             itemView.setOnClickListener(this);
+            itemView.setOnTouchListener(this);
 
         }
 
@@ -125,8 +131,11 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
-            return false;
+            v.setBackgroundColor(v.getResources().getColor(R.color.colorPrimaryDark));
+            if (adapter.touchListener != null) {
+                touchListener.onTouch(elementOfTheTappticList, currentPosition);
+            }
+            return true;
         }
     }
 
@@ -135,7 +144,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
 
     }
 
-    interface OnElementTouchListener {
+    public interface OnElementTouchListener {
         void onTouch(ElementOfTheTappticList currentObject, int currentPosition);
     }
 }
