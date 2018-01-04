@@ -10,14 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kree.keehoo.mdpro.KeysAndConstants.ElementOfTheTappticList;
 import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
-import com.kree.keehoo.mdpro.KeysAndConstants.Obj;
 import com.kree.keehoo.mdpro.R;
 
 
 public class DataDetailFragment extends Fragment {
 
-    private Obj mItem;
+    private ElementOfTheTappticList mItem;
 
     public DataDetailFragment() {
     }
@@ -29,8 +29,8 @@ public class DataDetailFragment extends Fragment {
         if (getArguments().containsKey(Keys.KLUCZ)) {
             Log.d("Fragment", "contains key, key value = "+Keys.KLUCZ);
 
-            mItem = new Obj(getArguments().getString(Keys.KLUCZ), getArguments().getString(Keys.KLUCZ_IMAGE));
-            Log.d("Fragment mItem = ", mItem.getName() + " - " + mItem.getImage());
+            mItem = new ElementOfTheTappticList(getArguments().getString(Keys.KLUCZ), getArguments().getString(Keys.KLUCZ_IMAGE));
+            Log.d("Fragment mItem = ", mItem.getName() + " - " + mItem.getImageUrl());
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
@@ -50,7 +50,7 @@ public class DataDetailFragment extends Fragment {
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.data_detail)).setText(mItem.getName());
-            ((TextView) rootView.findViewById(R.id.data_detail2)).setText(mItem.getImage());
+            ((TextView) rootView.findViewById(R.id.data_detail2)).setText(mItem.getImageUrl());
         }
 
         return rootView;

@@ -21,7 +21,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/data_list"
         android:name="com.kree.keehoo.mdpro.DataListFragment"
-        android:layout_width="@dimen/item_width"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -35,6 +36,6 @@
         android:id="@+id/data_detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_weight="1" />
 
 </LinearLayout>
