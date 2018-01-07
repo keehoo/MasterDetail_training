@@ -1,6 +1,7 @@
 package com.kree.keehoo.mdpro.RVAdapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
     public void onBindViewHolder(final SimpleViewHolder holder, int position) {
         holder.elementOfTheTappticList = mValues.get(position);
         holder.name.setText(holder.elementOfTheTappticList.getName());
+        holder.name.setTextColor(Color.BLACK);
         setImage(holder.elementOfTheTappticList, context, holder.image);
         holder.currentPosition = position;
         holder.elementOfTheTappticList = mValues.get(position);
@@ -86,16 +88,47 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
         int currentPosition;
         SimpleViewAdapter adapter;
 
-        public SimpleViewHolder(View view, SimpleViewAdapter adapter) {
+        public SimpleViewHolder(final View view, SimpleViewAdapter adapter) {
             super(view);
             mView = view;
             name = (TextView) view.findViewById(R.id.id);
+
+            name.setTextColor (context.getResources().getColor(R.color.text_color_statelist));
+
+
             image = (ImageView) view.findViewById(R.id.content);
             itemLayout = (RelativeLayout) view.findViewById(R.id.item_layout);
             this.adapter = adapter;
 
             itemView.setOnClickListener(this);
             itemView.setOnFocusChangeListener(this);
+
+/*
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case ACTION_DOWN:
+                            name.setTextColor(Color.WHITE);
+                            itemView.setBackgroundColor(Color.GREEN);
+                            break;
+                        case ACTION_UP:
+                            name.setTextColor(Color.BLACK);
+                            v.performClick();
+                            break;
+                        default:
+                            name.setTextColor(Color.BLACK);
+                            break;
+                    }
+
+                    return true;
+                }
+
+            });*/
+
+            //  name.setTextColor(context.getResources().getColorStateList(R.color.text_color_statelist));
+
+            //     name.setTextColor(Color.BLACK);
         }
 
         @Override
@@ -105,6 +138,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
                 this.getItemLayout().setSelected(true);
                 consts.saveCurrentOnClickId(currentPosition);
                 adapter.notifyDataSetChanged();
+                name.setTextColor(Color.WHITE);
             }
         }
 
@@ -113,6 +147,16 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
             if (adapter.focusListener != null) {
                 focusListener.onFocus(v, hasFocus, currentPosition);
             }
+
+            if (hasFocus) {
+                name.setTextColor(Color.WHITE);
+            }
+
+            else {
+                name.setTextColor(Color.BLACK);
+
+            }
+
         }
 
         public RelativeLayout getItemLayout() {
