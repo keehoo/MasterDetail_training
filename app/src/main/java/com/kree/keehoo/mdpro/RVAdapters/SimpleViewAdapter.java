@@ -104,6 +104,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
                 listener.onClick(elementOfTheTappticList, currentPosition);
                 this.getItemLayout().setSelected(true);
                 consts.saveCurrentOnClickId(currentPosition);
+                adapter.notifyDataSetChanged();
             }
         }
 
