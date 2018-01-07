@@ -3,12 +3,13 @@ package com.kree.keehoo.mdpro.RVAdapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.kree.keehoo.mdpro.KeysAndConstants.Consts;
 import com.kree.keehoo.mdpro.KeysAndConstants.ElementOfTheTappticList;
 import com.kree.keehoo.mdpro.R;
 import com.squareup.picasso.Picasso;
@@ -16,13 +17,13 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-
 public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.SimpleViewHolder> {
 
     private final List<ElementOfTheTappticList> mValues;
     private Context context;
-    private int focusedItem = 0;
     OnElementClickListener listener;
+    OnElementFocusListener focusListener;
+    public Consts consts;
 
     boolean mTwoPanes;
 
@@ -31,11 +32,15 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
         mValues = items;
         this.context = context;
         this.mTwoPanes = mTwoPanes;
-
+        this.consts = new Consts();
     }
 
     public void setListener(OnElementClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setFocusListener(OnElementFocusListener focusListener) {
+        this.focusListener = focusListener;
     }
 
     @Override
@@ -50,38 +55,13 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
         holder.elementOfTheTappticList = mValues.get(position);
         holder.name.setText(holder.elementOfTheTappticList.getName());
         setImage(holder.elementOfTheTappticList, context, holder.image);
-        holder.mView.setSelected(focusedItem == position);
         holder.currentPosition = position;
         holder.elementOfTheTappticList = mValues.get(position);
+        holder.getItemLayout().setSelected(false);
+        if (consts.getLastSelectionId() == position) {
+            holder.getItemLayout().setSelected(true);
+        }
 
-
-/*        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(getClass().getName(), "Clicked on the list item");
-                if (mTwoPanes) {
-                    holder.mView.setSelected(true);
-                    Bundle arguments = new Bundle();
-                    arguments.putString(Keys.KLUCZ, holder.elementOfTheTappticList.getName());
-                    arguments.putString(Keys.KLUCZ_IMAGE, holder.elementOfTheTappticList.getImageUrl());   // tutaj musze przeslac Id
-                    DataDetailFragment fragment = new DataDetailFragment();
-                    fragment.setArguments(arguments);
-
-
-                    ((DataListActivity)context).getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.data_detail_container, fragment)
-                            .commit();
-                } else {
-                    holder.mView.setSelected(true);
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, DataDetailActivity.class);
-                    intent.putExtra(Keys.KLUCZ, holder.elementOfTheTappticList.getName());
-                    Log.d(Keys.KLUCZ, holder.elementOfTheTappticList.getName());
-                    Log.d("DataListActivity", "elementOfTheTappticList.getName = " + holder.elementOfTheTappticList.getName());
-                    context.startActivity(intent);
-                }
-            }
-        });*/
     }
 
     @Override
@@ -97,11 +77,12 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
                 .into(imageView);
     }
 
-    public class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
+    public class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnFocusChangeListener {
         public final TextView name;
         public final ImageView image;
         public final View mView;
         public ElementOfTheTappticList elementOfTheTappticList;
+        private RelativeLayout itemLayout;
         int currentPosition;
         SimpleViewAdapter adapter;
 
@@ -110,23 +91,31 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
             mView = view;
             name = (TextView) view.findViewById(R.id.id);
             image = (ImageView) view.findViewById(R.id.content);
+            itemLayout = (RelativeLayout) view.findViewById(R.id.item_layout);
             this.adapter = adapter;
 
             itemView.setOnClickListener(this);
-
+            itemView.setOnFocusChangeListener(this);
         }
 
         @Override
         public void onClick(View view) {
             if (adapter.listener != null) {
                 listener.onClick(elementOfTheTappticList, currentPosition);
+                this.getItemLayout().setSelected(true);
+                consts.saveCurrentOnClickId(currentPosition);
             }
         }
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (adapter.focusListener != null) {
+                focusListener.onFocus(v, hasFocus, currentPosition);
+            }
+        }
 
-            return false;
+        public RelativeLayout getItemLayout() {
+            return itemLayout;
         }
     }
 
@@ -135,8 +124,9 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
 
     }
 
-    interface OnElementTouchListener {
-        void onTouch(ElementOfTheTappticList currentObject, int currentPosition);
+    public interface OnElementFocusListener {
+        void onFocus(View v, boolean hasFocus, int position);
+
     }
 }
 

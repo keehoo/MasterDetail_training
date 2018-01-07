@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.kree.keehoo.mdpro.KeysAndConstants.Consts;
 import com.kree.keehoo.mdpro.KeysAndConstants.ElementOfTheTappticList;
 import com.kree.keehoo.mdpro.Loaders.StringLoader;
 import com.kree.keehoo.mdpro.R;
@@ -31,6 +32,7 @@ public class DataListActivity extends AppCompatActivity {
     private List<ElementOfTheTappticList> values;
     private String result;
     private RecyclerView recyclerView;
+    private Consts consts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class DataListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_list);
         initViews();
         setUpTwoPaneMode();
+        consts = new Consts();
         doNotShowDetailOnLandscapeInTablet();
         getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);  // inicjacja loadera
     }
@@ -63,11 +66,22 @@ public class DataListActivity extends AppCompatActivity {
     }
 
     public void setupRecyclerView(List<ElementOfTheTappticList> values, boolean mTwoPane) {
-        SimpleViewAdapter adapter = new SimpleViewAdapter(this, values, mTwoPane);
+        final SimpleViewAdapter adapter = new SimpleViewAdapter(this, values, mTwoPane);
         adapter.setListener(new SimpleViewAdapter.OnElementClickListener() {
             @Override
             public void onClick(ElementOfTheTappticList currentObject, int currentPosition) {
                 showSelectedDetailScreen(currentObject, currentPosition);
+                consts.saveCurrentOnClickId(currentPosition);
+            }
+        });
+
+        adapter.setFocusListener(new SimpleViewAdapter.OnElementFocusListener() {
+            @Override
+            public void onFocus(View v, boolean hasFocus, int position) {
+                if (hasFocus) {
+                Toast.makeText(DataListActivity.this, "Focus on item "+position, Toast.LENGTH_SHORT).show();
+                consts.saveCurrentFocusId(position);
+                }
             }
         });
         recyclerView.setItemAnimator(new DefaultItemAnimator());
