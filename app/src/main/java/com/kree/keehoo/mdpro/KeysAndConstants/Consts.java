@@ -14,6 +14,8 @@ public class Consts {
 
     private static int currentFocusedItemId = -1;
     private static int lastSelectionId = -2;
+    private static String currentClickedObjectName = "";
+    private static String currentClickedObjectImageUrl = "";
 
     public int getCurrentFocusedItemId() {
         return currentFocusedItemId;
@@ -34,8 +36,17 @@ public class Consts {
     }
 
 
+    public void saveCurrentClickedObjectName(String s) {
+        currentClickedObjectName = s;
+    }
 
+    public void saveCurrentClickedObjectImageUrl(String s) {
+        currentClickedObjectImageUrl = s;
+    }
 
+    public ElementOfTheTappticList getLastClickedObj() {
+        return new ElementOfTheTappticList(currentClickedObjectName, currentClickedObjectImageUrl);
+    }
 }
 
 

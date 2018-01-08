@@ -43,6 +43,8 @@ public class DataDetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.data_detail_container, fragment)
                     .commit();
+        } else {
+            finish();
         }
 
    /*     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

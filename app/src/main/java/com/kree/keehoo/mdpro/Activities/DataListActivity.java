@@ -32,10 +32,39 @@ import java.util.List;
 public class DataListActivity extends AppCompatActivity {
 
     private boolean mTwoPane;
-    private List<ElementOfTheTappticList> values;
     private String result;
     private RecyclerView recyclerView;
     private Consts consts;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("TEST", "ROTATION TEST");
+        outState.putInt("CLICK", consts.getLastSelectionId());
+        outState.putInt("FOCUS", consts.getCurrentFocusedItemId());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        super.onRestoreInstanceState(savedInstanceState);
+        String test = savedInstanceState.getString("TEST");
+        Integer click = savedInstanceState.getInt("CLICK");
+        Integer focus = savedInstanceState.getInt("FOCUS");
+
+        if (click!= -2) {
+            // Item has been clicked before
+            Toast.makeText(this, "Item has been clicked before: "+click, Toast.LENGTH_SHORT).show();
+            showDetailScreen(mTwoPane, consts.getLastClickedObj(), click);
+        }
+
+        if (focus != -1) {
+            Toast.makeText(this, "Item has been focused on before: "+focus, Toast.LENGTH_SHORT).show();
+            // Item has been focused on before
+        }
+
+        Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +126,8 @@ public class DataListActivity extends AppCompatActivity {
         if (mTwoPanes) {
             Bundle arguments = new Bundle();
             arguments.putString(Keys.KLUCZ, obj.getName());
+            consts.saveCurrentClickedObjectName(obj.getName());
+            consts.saveCurrentClickedObjectImageUrl(obj.getImageUrl());
             arguments.putString(Keys.KLUCZ_IMAGE, obj.getImageUrl());   // tutaj musze przeslac Id
             DataDetailFragment fragment = new DataDetailFragment();
             fragment.setArguments(arguments);
@@ -116,12 +147,8 @@ public class DataListActivity extends AppCompatActivity {
         Toast.makeText(this, "Clicked position " + currentPosition, Toast.LENGTH_SHORT).show();
     }
 
-    public void start() {
-        /**
-         * Po pobraniu danych, rezulatat powinien znajodwac sie w prywatnym polu result,
-         * wykorzystujemy to pole (String), zeby otrzymać listę elementów
-         * */
-        values = new ArrayList<>();
+    public void parseReceivedData() {
+        List<ElementOfTheTappticList> values = new ArrayList<>();
 
         try {
             JSONArray ja = new JSONArray(getResult());
@@ -149,7 +176,7 @@ public class DataListActivity extends AppCompatActivity {
         public void onLoadFinished(Loader<String> loader, String data) {
             Log.d("onLoadFinished", "data = " + data);
             setResult(data);
-            start();
+            parseReceivedData();
         }
 
         @Override
