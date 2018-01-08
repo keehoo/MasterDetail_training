@@ -1,5 +1,6 @@
 package com.kree.keehoo.mdpro.Activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -11,8 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.kree.keehoo.mdpro.Fragments.DataDetailFragment;
 import com.kree.keehoo.mdpro.KeysAndConstants.Consts;
 import com.kree.keehoo.mdpro.KeysAndConstants.ElementOfTheTappticList;
+import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
 import com.kree.keehoo.mdpro.Loaders.StringLoader;
 import com.kree.keehoo.mdpro.R;
 import com.kree.keehoo.mdpro.RVAdapters.SimpleViewAdapter;
@@ -65,13 +68,14 @@ public class DataListActivity extends AppCompatActivity {
         }
     }
 
-    public void setupRecyclerView(List<ElementOfTheTappticList> values, boolean mTwoPane) {
+    public void setupRecyclerView(List<ElementOfTheTappticList> values, final boolean mTwoPane) {
         final SimpleViewAdapter adapter = new SimpleViewAdapter(this, values, mTwoPane);
         adapter.setListener(new SimpleViewAdapter.OnElementClickListener() {
             @Override
             public void onClick(ElementOfTheTappticList currentObject, int currentPosition) {
                 showSelectedDetailScreen(currentObject, currentPosition);
                 consts.saveCurrentOnClickId(currentPosition);
+                showDetailScreen(mTwoPane, currentObject, currentPosition);
             }
         });
 
@@ -87,6 +91,25 @@ public class DataListActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void showDetailScreen(boolean mTwoPanes, ElementOfTheTappticList obj, int position) {
+        if (mTwoPanes) {
+            Bundle arguments = new Bundle();
+            arguments.putString(Keys.KLUCZ, obj.getName());
+            arguments.putString(Keys.KLUCZ_IMAGE, obj.getImageUrl());   // tutaj musze przeslac Id
+            DataDetailFragment fragment = new DataDetailFragment();
+            fragment.setArguments(arguments);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.data_detail_container, fragment)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, DataDetailActivity.class);
+            intent.putExtra(Keys.KLUCZ, obj.getName());
+            intent.putExtra(Keys.KLUCZ_IMAGE, obj.getImageUrl());
+            startActivity(intent);
+        }
     }
 
     private void showSelectedDetailScreen(ElementOfTheTappticList currentObject, int currentPosition) {
