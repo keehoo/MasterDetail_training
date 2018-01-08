@@ -55,7 +55,6 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
     public void onBindViewHolder(final SimpleViewHolder holder, int position) {
         holder.elementOfTheTappticList = mValues.get(position);
         holder.name.setText(holder.elementOfTheTappticList.getName());
-        holder.name.setTextColor(Color.BLACK);
         setImage(holder.elementOfTheTappticList, context, holder.image);
         holder.currentPosition = position;
         holder.elementOfTheTappticList = mValues.get(position);
@@ -82,7 +81,6 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
     public class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnFocusChangeListener {
         public final TextView name;
         public final ImageView image;
-        public final View mView;
         public ElementOfTheTappticList elementOfTheTappticList;
         private RelativeLayout itemLayout;
         int currentPosition;
@@ -90,12 +88,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
 
         public SimpleViewHolder(final View view, SimpleViewAdapter adapter) {
             super(view);
-            mView = view;
             name = (TextView) view.findViewById(R.id.id);
-
-            name.setTextColor (context.getResources().getColor(R.color.text_color_statelist));
-
-
             image = (ImageView) view.findViewById(R.id.content);
             itemLayout = (RelativeLayout) view.findViewById(R.id.item_layout);
             this.adapter = adapter;
@@ -138,7 +131,6 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
                 this.getItemLayout().setSelected(true);
                 consts.saveCurrentOnClickId(currentPosition);
                 adapter.notifyDataSetChanged();
-                name.setTextColor(Color.WHITE);
             }
         }
 
