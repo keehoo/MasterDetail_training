@@ -98,7 +98,7 @@ public class DataListActivity extends AppCompatActivity {
                 for (NetworkInfo networkInfo : info) {
                     if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
                         Toast.makeText(this, "Network available", Toast.LENGTH_SHORT).show();
-                        return true;
+                        return false;
                     }
                 }
             }
