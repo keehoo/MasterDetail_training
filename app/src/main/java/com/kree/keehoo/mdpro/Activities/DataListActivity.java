@@ -1,7 +1,10 @@
 package com.kree.keehoo.mdpro.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -75,7 +78,32 @@ public class DataListActivity extends AppCompatActivity {
         consts = new Consts(this);
         doNotShowDetailOnLandscapeInTablet();
         showLastOpenedDetailScreen();
+        if (noConnectivity()) {
+            showRetryScreen();
+        }
         getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);  // inicjacja loadera
+    }
+
+    private void showRetryScreen() {
+        Intent intent = new Intent(this, WaitForConnectivityActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private boolean noConnectivity() {
+        ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null) {
+                for (NetworkInfo networkInfo : info) {
+                    if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
+                        Toast.makeText(this, "Network available", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private void showLastOpenedDetailScreen() {
