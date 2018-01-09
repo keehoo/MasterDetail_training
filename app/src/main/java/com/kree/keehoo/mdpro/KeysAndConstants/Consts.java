@@ -11,10 +11,12 @@ import com.kree.keehoo.mdpro.R;
 
 public class Consts {
 
-    public static final String IMAGE = "IMAGE";
-    public static final String NAME = "Name";
-    public static final String CLICK = "CLICK";
-    public static final String FOCUS = "FOCUS";
+    private static final String IMAGE = "IMAGE";
+    private static final String NAME = "Name";
+    private static final String CLICK = "CLICK";
+    private static final String FOCUS = "FOCUS";
+    private static final String TWO_PANE = "two_panes";
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -28,6 +30,13 @@ public class Consts {
     private static int lastSelectionId = -2;
     private static String currentClickedObjectName = "";
     private static String currentClickedObjectImageUrl = "";
+
+    public void resetValues() {
+        saveCurrentFocusId(-1);
+        saveCurrentClickedObjectName("");
+        saveCurrentOnClickId(-2);
+        saveCurrentClickedObjectImageUrl("");
+    }
 
     public int getCurrentFocusedItemId() {
         return currentFocusedItemId;
@@ -56,6 +65,14 @@ public class Consts {
     public void saveCurrentClickedObjectImageUrl(String s) {
         currentClickedObjectImageUrl = s;
         editor.putString(IMAGE, s).commit();
+    }
+
+    public void saveTwoPane(boolean twoPane) {
+        editor.putBoolean(TWO_PANE, twoPane).commit();
+    }
+
+    public boolean isTwoPane() {
+        return sharedPreferences.getBoolean(TWO_PANE, false);
     }
 
     public ElementOfTheTappticList getLastClickedObj() {

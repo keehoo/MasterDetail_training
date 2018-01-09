@@ -1,9 +1,12 @@
 package com.kree.keehoo.mdpro.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.kree.keehoo.mdpro.Fragments.DataDetailFragment;
+import com.kree.keehoo.mdpro.KeysAndConstants.Consts;
 import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
 import com.kree.keehoo.mdpro.R;
 
@@ -15,12 +18,30 @@ import com.kree.keehoo.mdpro.R;
  */
 public class DataDetailActivity extends AppCompatActivity {
 
+    public static final String TWO_PANE = "TWO_PANE";
     private DataDetailFragment fragment;
+    private Consts consts;
+
+    @Override
+    public void onBackPressed() {
+        consts.resetValues();
+        returnToMainActivity();
+        super.onBackPressed();
+    }
+
+    private void returnToMainActivity() {
+        startActivity(new Intent(this, DataListActivity.class));
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_detail);
+
+        consts = new Consts(this);
+
+        boolean two_pane = consts.isTwoPane();
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -40,11 +61,34 @@ public class DataDetailActivity extends AppCompatActivity {
                     getIntent().getStringExtra(Keys.KLUCZ_IMAGE));
             fragment = new DataDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
+
+            FragmentManager commit = getSupportFragmentManager();
+
+            commit.popBackStack();
+
+            commit.beginTransaction()
                     .add(R.id.data_detail_container, fragment)
                     .commit();
         } else {
-            finish();
+            if (two_pane) {
+                returnToMainActivity();
+            } else {
+                Bundle arguments = new Bundle();
+                arguments.putString(Keys.KLUCZ, getIntent().getStringExtra(Keys.KLUCZ));
+                arguments.putString(Keys.KLUCZ_IMAGE,
+                        getIntent().getStringExtra(Keys.KLUCZ_IMAGE));
+                fragment = new DataDetailFragment();
+                fragment.setArguments(arguments);
+
+                FragmentManager commit = getSupportFragmentManager();
+
+                commit.popBackStack();
+
+                commit.beginTransaction()
+                        .replace(R.id.data_detail_container, fragment)
+                        .commit();
+            }
+
         }
 
    /*     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Toast;
 
@@ -47,26 +48,34 @@ public class DataListActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+
+    protected void afterConfigurationChange(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            String test = savedInstanceState.getString("TEST");
+            Integer click = savedInstanceState.getInt("CLICK");
+            Integer focus = savedInstanceState.getInt("FOCUS");
+
+            if (click != -2) {
+                // Item has been clicked before
+                Toast.makeText(this, "Item has been clicked before: " + click, Toast.LENGTH_SHORT).show();
+                showDetailScreen(mTwoPane, consts.getLastClickedObj(), click);
+            }
+
+            if (focus != -1) {
+                Toast.makeText(this, "Item has been focused on before: " + focus, Toast.LENGTH_SHORT).show();
+                // Item has been focused on before
+            }
+
+            Toast.makeText(this, test + getResources().getConfiguration().orientation, Toast.LENGTH_SHORT).show();
+            Log.d("ORIENTATION", "" + getResources().getConfiguration().orientation);
+        }
+    }
+
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onBackPressed() {
+        Toast.makeText(this, "On back pressed", Toast.LENGTH_SHORT).show();
+        super.onBackPressed();
 
-        super.onRestoreInstanceState(savedInstanceState);
-        String test = savedInstanceState.getString("TEST");
-        Integer click = savedInstanceState.getInt("CLICK");
-        Integer focus = savedInstanceState.getInt("FOCUS");
-
-        if (click!= -2) {
-            // Item has been clicked before
-            Toast.makeText(this, "Item has been clicked before: "+click, Toast.LENGTH_SHORT).show();
-            showDetailScreen(mTwoPane, consts.getLastClickedObj(), click);
-        }
-
-        if (focus != -1) {
-            Toast.makeText(this, "Item has been focused on before: "+focus, Toast.LENGTH_SHORT).show();
-            // Item has been focused on before
-        }
-
-        Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -74,10 +83,12 @@ public class DataListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_list);
         initViews();
-        setUpTwoPaneMode();
         consts = new Consts(this);
+        afterConfigurationChange(savedInstanceState);
+        setUpTwoPaneMode();
         doNotShowDetailOnLandscapeInTablet();
         showLastOpenedDetailScreen();
+
         if (noConnectivity()) {
             showRetryScreen();
         }
@@ -121,6 +132,7 @@ public class DataListActivity extends AppCompatActivity {
         if (findViewById(R.id.data_detail_container) != null) {  // data_detail_container jest w layoucie activity_data_detail i jest to kontrolka NestedSctollView
             mTwoPane = true;
         }
+        consts.saveTwoPane(mTwoPane);
     }
 
     private void doNotShowDetailOnLandscapeInTablet() {
@@ -131,6 +143,7 @@ public class DataListActivity extends AppCompatActivity {
                 v.setVisibility(View.GONE);
             }
         }
+        consts.saveTwoPane(mTwoPane);
     }
 
     public void setupRecyclerView(List<ElementOfTheTappticList> values, final boolean mTwoPane) {
@@ -150,8 +163,8 @@ public class DataListActivity extends AppCompatActivity {
             @Override
             public void onFocus(View v, boolean hasFocus, int position) {
                 if (hasFocus) {
-                Toast.makeText(DataListActivity.this, "Focus on item "+position, Toast.LENGTH_SHORT).show();
-                consts.saveCurrentFocusId(position);
+                    Toast.makeText(DataListActivity.this, "Focus on item " + position, Toast.LENGTH_SHORT).show();
+                    consts.saveCurrentFocusId(position);
                 }
             }
         });
@@ -177,6 +190,7 @@ public class DataListActivity extends AppCompatActivity {
             Intent intent = new Intent(this, DataDetailActivity.class);
             intent.putExtra(Keys.KLUCZ, obj.getName());
             intent.putExtra(Keys.KLUCZ_IMAGE, obj.getImageUrl());
+            intent.putExtra(DataDetailActivity.TWO_PANE, true);
             startActivity(intent);
         }
     }
