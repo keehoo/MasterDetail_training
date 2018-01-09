@@ -66,16 +66,14 @@ public class DataListActivity extends AppCompatActivity {
                 // Item has been focused on before
             }
 
-            Toast.makeText(this, test + getResources().getConfiguration().orientation, Toast.LENGTH_SHORT).show();
-            Log.d("ORIENTATION", "" + getResources().getConfiguration().orientation);
+          //  Toast.makeText(this, test + getResources().getConfiguration().orientation, Toast.LENGTH_SHORT).show();
+          //  Log.d("ORIENTATION", "" + getResources().getConfiguration().orientation);
         }
     }
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "On back pressed", Toast.LENGTH_SHORT).show();
         super.onBackPressed();
-
     }
 
     @Override
@@ -109,7 +107,7 @@ public class DataListActivity extends AppCompatActivity {
             if (info != null) {
                 for (NetworkInfo networkInfo : info) {
                     if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                        Toast.makeText(this, "Network available", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Network available", Toast.LENGTH_SHORT).show();
                         return false;
                     }
                 }
@@ -120,7 +118,6 @@ public class DataListActivity extends AppCompatActivity {
 
     private void showLastOpenedDetailScreen() {
         if (consts.getLastSelectionId() != -2) {
-            Toast.makeText(this, "Attempting to open previous screen", Toast.LENGTH_SHORT).show();
             showDetailScreen(mTwoPane, consts.getLastClickedObj(), consts.getLastSelectionId());
         }
     }
@@ -152,7 +149,6 @@ public class DataListActivity extends AppCompatActivity {
         adapter.setListener(new SimpleViewAdapter.OnElementClickListener() {
             @Override
             public void onClick(ElementOfTheTappticList currentObject, int currentPosition) {
-                showSelectedDetailScreen(currentObject, currentPosition);
                 consts.saveCurrentOnClickId(currentPosition);
                 consts.saveCurrentClickedObjectImageUrl(currentObject.getImageUrl());
                 consts.saveCurrentClickedObjectName(currentObject.getName());
@@ -164,7 +160,6 @@ public class DataListActivity extends AppCompatActivity {
             @Override
             public void onFocus(View v, boolean hasFocus, int position) {
                 if (hasFocus) {
-                    Toast.makeText(DataListActivity.this, "Focus on item " + position, Toast.LENGTH_SHORT).show();
                     consts.saveCurrentFocusId(position);
                 }
             }
@@ -201,10 +196,6 @@ public class DataListActivity extends AppCompatActivity {
         }
     }
 
-    private void showSelectedDetailScreen(ElementOfTheTappticList currentObject, int currentPosition) {
-        Toast.makeText(this, "Clicked position " + currentPosition, Toast.LENGTH_SHORT).show();
-    }
-
     public void parseReceivedData() {
         List<ElementOfTheTappticList> values = new ArrayList<>();
 
@@ -215,10 +206,8 @@ public class DataListActivity extends AppCompatActivity {
                 JSONObject jo = (JSONObject) ja.get(i);
                 values.add(new ElementOfTheTappticList(jo.getString("name"), jo.getString("image")));
             }
-            //tv.setText("dlugosc listy "+lista.size());
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.d("JSONArray", "JSONEXCEPTION");
             Toast.makeText(DataListActivity.this, "JSONArray Exception", Toast.LENGTH_SHORT).show();
         }
         setupRecyclerView(values, mTwoPane);
