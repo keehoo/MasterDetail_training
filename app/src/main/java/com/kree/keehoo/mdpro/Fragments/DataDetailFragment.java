@@ -1,10 +1,9 @@
 package com.kree.keehoo.mdpro.Fragments;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,20 +25,18 @@ public class DataDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(Keys.KLUCZ)) {
-            Log.d("Fragment", "contains key, key value = "+Keys.KLUCZ);
+        if (getArguments().containsKey(Keys.KEY)) {
 
-            mItem = new ElementOfTheTappticList(getArguments().getString(Keys.KLUCZ), getArguments().getString(Keys.KLUCZ_IMAGE));
-            Log.d("Fragment mItem = ", mItem.getName() + " - " + mItem.getImageUrl());
+            mItem = new ElementOfTheTappticList(getArguments().getString(Keys.KEY), getArguments().getString(Keys.KLUCZ_IMAGE));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.getName());
             }
+        } else {
+            // TODO: add exception handling
         }
-        else {
-            Log.d("Nie ma klucza", "ARG_ITEM_ID -->"+Keys.KLUCZ);}
     }
 
     @Override
@@ -47,7 +44,6 @@ public class DataDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.data_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.data_detail)).setText(mItem.getName());
             ((TextView) rootView.findViewById(R.id.data_detail2)).setText(mItem.getImageUrl());

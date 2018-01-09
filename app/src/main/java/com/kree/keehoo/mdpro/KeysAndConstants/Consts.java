@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 
 import com.kree.keehoo.mdpro.R;
 
-/**
- * Created by krzysztof on 07.01.2018.
- */
 
 public class Consts {
 
@@ -28,14 +25,15 @@ public class Consts {
 
     private static int currentFocusedItemId = -1;
     private static int lastSelectionId = -2;
-    private static String currentClickedObjectName = "";
-    private static String currentClickedObjectImageUrl = "";
+    public static final String STRING_EMPTY = "";
+    private static String currentClickedObjectName = STRING_EMPTY;
+    private static String currentClickedObjectImageUrl = STRING_EMPTY;
 
     public void resetValues() {
         saveCurrentFocusId(-1);
-        saveCurrentClickedObjectName("");
+        saveCurrentClickedObjectName(STRING_EMPTY);
         saveCurrentOnClickId(-2);
-        saveCurrentClickedObjectImageUrl("");
+        saveCurrentClickedObjectImageUrl(STRING_EMPTY);
     }
 
     public int getCurrentFocusedItemId() {
@@ -47,7 +45,7 @@ public class Consts {
     }
 
 
-    public void saveCurrentFocusId (int id) {
+    public void saveCurrentFocusId(int id) {
         currentFocusedItemId = id;
         editor.putInt(FOCUS, id).commit();
     }
@@ -80,8 +78,8 @@ public class Consts {
     }
 
     private void getPreviousValues() {
-        currentClickedObjectImageUrl = sharedPreferences.getString(IMAGE, "" );
-        currentClickedObjectName = sharedPreferences.getString(NAME, "");
+        currentClickedObjectImageUrl = sharedPreferences.getString(IMAGE, STRING_EMPTY);
+        currentClickedObjectName = sharedPreferences.getString(NAME, STRING_EMPTY);
         lastSelectionId = sharedPreferences.getInt(CLICK, -2);
         currentFocusedItemId = sharedPreferences.getInt(FOCUS, -1);
     }

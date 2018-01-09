@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Toast;
 
@@ -178,7 +177,7 @@ public class DataListActivity extends AppCompatActivity {
     private void showDetailScreen(boolean mTwoPanes, ElementOfTheTappticList obj, int position) {
         if (mTwoPanes) {
             Bundle arguments = new Bundle();
-            arguments.putString(Keys.KLUCZ, obj.getName());
+            arguments.putString(Keys.KEY, obj.getName());
             consts.saveCurrentClickedObjectName(obj.getName());
             consts.saveCurrentClickedObjectImageUrl(obj.getImageUrl());
             arguments.putString(Keys.KLUCZ_IMAGE, obj.getImageUrl());   // tutaj musze przeslac Id
@@ -193,7 +192,7 @@ public class DataListActivity extends AppCompatActivity {
                     .commit();
         } else {
             Intent intent = new Intent(this, DataDetailActivity.class);
-            intent.putExtra(Keys.KLUCZ, obj.getName());
+            intent.putExtra(Keys.KEY, obj.getName());
             intent.putExtra(Keys.KLUCZ_IMAGE, obj.getImageUrl());
             intent.putExtra(DataDetailActivity.TWO_PANE, true);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

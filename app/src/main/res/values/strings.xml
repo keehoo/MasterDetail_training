@@ -3,6 +3,7 @@
     <string name="title_data_detail">Data Detail</string>
     <string name="text">text</string>
     <string name="tapptic_shared_preferences_file">tapptic_shared_preferences</string>
+    <string name="no_internet_connections">Internet connection not found, please connect and hit retry</string>
 
 
 </resources>

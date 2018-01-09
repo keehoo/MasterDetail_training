@@ -19,35 +19,30 @@ import okhttp3.Response;
  * Created by keehoo on 09.09.2016.
  */
 public class StringLoader extends AsyncTaskLoader<String> {
+
+    private static final String TAPPTIC_ADDRESS = "http://dev.tapptic.com/test/json.php";
+
     public StringLoader(Context context) {
         super(context);
     }
 
-    private String cachedData;  // przechowywanie informacji na wypadek pustej listy
-    public static final String ACTION = "com.kree.keehoo";
+    private String cachedData;
+    private static final String ACTION = "com.kree.keehoo";
     private final OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onStartLoading() {
-        /**
-         * To jest wywoływane gdy wywoływana jest instrukcja init w kliencie
-         *  chcemy powiedziec loaderowi, zeby loadował
-         */
-
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         IntentFilter filter = new IntentFilter(ACTION);
         manager.registerReceiver(broadcastReceiver, filter);
-
         if (cachedData == null) forceLoad();
         else super.deliverResult(cachedData);
     }
 
     @Override
     public String loadInBackground() {
-        /** This method is run on a backgroud thread!!!! do the downloading here */
-
         Request request = new Request.Builder()
-                .url("http://dev.tapptic.com/test/json.php")
+                .url(TAPPTIC_ADDRESS)
                 .build();
         Response response = null;
         try {
@@ -62,14 +57,13 @@ public class StringLoader extends AsyncTaskLoader<String> {
         }
         Headers responseHeaders = response.headers();
         for (int i = 0; i < responseHeaders.size(); i++) {
-            //System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            Log.d("run", "Response header" + responseHeaders.value(i));
+//            Log.d("run", "Response header" + responseHeaders.value(i));
         }
         try {
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
-            return "IOException" + e;
+            return "IOException" + e; // DANGER HERE !!!!
         }
     }
 
