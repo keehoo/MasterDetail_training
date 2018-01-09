@@ -33,7 +33,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
         mValues = items;
         this.context = context;
         this.mTwoPanes = mTwoPanes;
-        this.consts = new Consts();
+        this.consts = new Consts(context);
     }
 
     public void setListener(OnElementClickListener listener) {

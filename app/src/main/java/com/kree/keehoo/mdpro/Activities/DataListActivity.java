@@ -72,9 +72,17 @@ public class DataListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_list);
         initViews();
         setUpTwoPaneMode();
-        consts = new Consts();
+        consts = new Consts(this);
         doNotShowDetailOnLandscapeInTablet();
+        showLastOpenedDetailScreen();
         getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);  // inicjacja loadera
+    }
+
+    private void showLastOpenedDetailScreen() {
+        if (consts.getLastSelectionId() != -2) {
+            Toast.makeText(this, "Attempting to open previous screen", Toast.LENGTH_SHORT).show();
+            showDetailScreen(mTwoPane, consts.getLastClickedObj(), consts.getLastSelectionId());
+        }
     }
 
     private void initViews() {
@@ -104,6 +112,8 @@ public class DataListActivity extends AppCompatActivity {
             public void onClick(ElementOfTheTappticList currentObject, int currentPosition) {
                 showSelectedDetailScreen(currentObject, currentPosition);
                 consts.saveCurrentOnClickId(currentPosition);
+                consts.saveCurrentClickedObjectImageUrl(currentObject.getImageUrl());
+                consts.saveCurrentClickedObjectName(currentObject.getName());
                 showDetailScreen(mTwoPane, currentObject, currentPosition);
             }
         });

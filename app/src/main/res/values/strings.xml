@@ -2,6 +2,7 @@
     <string name="app_name">MDpro</string>
     <string name="title_data_detail">Data Detail</string>
     <string name="text">text</string>
+    <string name="tapptic_shared_preferences_file">tapptic_shared_preferences</string>
 
 
 </resources>
