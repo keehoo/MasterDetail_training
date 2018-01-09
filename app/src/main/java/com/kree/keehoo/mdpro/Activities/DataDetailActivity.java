@@ -26,13 +26,15 @@ public class DataDetailActivity extends AppCompatActivity {
     public void onBackPressed() {
         consts.resetValues();
         returnToMainActivity();
-        super.onBackPressed();
-        finish();
     }
 
     private void returnToMainActivity() {
-        startActivity(new Intent(this, DataListActivity.class));
+        Intent intent = new Intent(this, DataListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
+        super.onBackPressed();
+
     }
 
     @Override
@@ -65,11 +67,11 @@ public class DataDetailActivity extends AppCompatActivity {
 
             FragmentManager commit = getSupportFragmentManager();
 
-            commit.popBackStack();
 
             commit.beginTransaction()
                     .add(R.id.data_detail_container, fragment)
                     .commit();
+            commit.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE) ;
         } else {
          //   if (two_pane) {
                 returnToMainActivity();

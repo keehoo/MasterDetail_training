@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -57,12 +58,12 @@ public class DataListActivity extends AppCompatActivity {
 
             if (click != -2) {
                 // Item has been clicked before
-              //  Toast.makeText(this, "Item has been clicked before: " + click, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(this, "Item has been clicked before: " + click, Toast.LENGTH_SHORT).show();
                 showDetailScreen(mTwoPane, consts.getLastClickedObj(), click);
             }
 
             if (focus != -1) {
-               // Toast.makeText(this, "Item has been focused on before: " + focus, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "Item has been focused on before: " + focus, Toast.LENGTH_SHORT).show();
                 // Item has been focused on before
             }
 
@@ -184,7 +185,10 @@ public class DataListActivity extends AppCompatActivity {
             DataDetailFragment fragment = new DataDetailFragment();
             fragment.setArguments(arguments);
 
-            getSupportFragmentManager().beginTransaction()
+            FragmentManager supportFragmentManager = getSupportFragmentManager();
+
+            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            supportFragmentManager.beginTransaction()
                     .replace(R.id.data_detail_container, fragment)
                     .commit();
         } else {
@@ -192,6 +196,7 @@ public class DataListActivity extends AppCompatActivity {
             intent.putExtra(Keys.KLUCZ, obj.getName());
             intent.putExtra(Keys.KLUCZ_IMAGE, obj.getImageUrl());
             intent.putExtra(DataDetailActivity.TWO_PANE, true);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }
