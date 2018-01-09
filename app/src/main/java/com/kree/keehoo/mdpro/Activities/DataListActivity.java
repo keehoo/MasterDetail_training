@@ -193,6 +193,7 @@ public class DataListActivity extends AppCompatActivity {
             intent.putExtra(Keys.KLUCZ_IMAGE, obj.getImageUrl());
             intent.putExtra(DataDetailActivity.TWO_PANE, true);
             startActivity(intent);
+            finish();
         }
     }
 
