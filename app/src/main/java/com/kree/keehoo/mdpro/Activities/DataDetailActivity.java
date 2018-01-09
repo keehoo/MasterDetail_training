@@ -27,6 +27,7 @@ public class DataDetailActivity extends AppCompatActivity {
         consts.resetValues();
         returnToMainActivity();
         super.onBackPressed();
+        finish();
     }
 
     private void returnToMainActivity() {
@@ -70,9 +71,9 @@ public class DataDetailActivity extends AppCompatActivity {
                     .add(R.id.data_detail_container, fragment)
                     .commit();
         } else {
-            if (two_pane) {
+         //   if (two_pane) {
                 returnToMainActivity();
-            } else {
+           /* } else {
                 Bundle arguments = new Bundle();
                 arguments.putString(Keys.KLUCZ, getIntent().getStringExtra(Keys.KLUCZ));
                 arguments.putString(Keys.KLUCZ_IMAGE,
@@ -87,14 +88,15 @@ public class DataDetailActivity extends AppCompatActivity {
                 commit.beginTransaction()
                         .replace(R.id.data_detail_container, fragment)
                         .commit();
-            }
+            }*/
 
-        }
+            }
 
    /*     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager().beginTransaction()
                     .remove(fragment)
                     .commit();
         }*/
+      //  }
     }
 }

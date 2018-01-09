@@ -57,12 +57,12 @@ public class DataListActivity extends AppCompatActivity {
 
             if (click != -2) {
                 // Item has been clicked before
-                Toast.makeText(this, "Item has been clicked before: " + click, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(this, "Item has been clicked before: " + click, Toast.LENGTH_SHORT).show();
                 showDetailScreen(mTwoPane, consts.getLastClickedObj(), click);
             }
 
             if (focus != -1) {
-                Toast.makeText(this, "Item has been focused on before: " + focus, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Item has been focused on before: " + focus, Toast.LENGTH_SHORT).show();
                 // Item has been focused on before
             }
 
@@ -84,15 +84,16 @@ public class DataListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_list);
         initViews();
         consts = new Consts(this);
-        afterConfigurationChange(savedInstanceState);
         setUpTwoPaneMode();
+        afterConfigurationChange(savedInstanceState);
         doNotShowDetailOnLandscapeInTablet();
         showLastOpenedDetailScreen();
 
         if (noConnectivity()) {
             showRetryScreen();
+        } else {
+            getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);  // inicjacja loadera
         }
-        getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);  // inicjacja loadera
     }
 
     private void showRetryScreen() {
