@@ -6,33 +6,15 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.kree.keehoo.mdpro.model.KeysAndConstants.Consts;
-import com.kree.keehoo.mdpro.model.KeysAndConstants.ElementOfTheTappticList;
-import com.kree.keehoo.mdpro.model.KeysAndConstants.Keys;
 import com.kree.keehoo.mdpro.R;
-import com.kree.keehoo.mdpro.presenter.Loaders.StringLoader;
 import com.kree.keehoo.mdpro.presenter.MainPresenter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import view.Activities.interfaces.MainActivityInterface;
-import view.Fragments.DataDetailFragment;
 import view.RVAdapters.SimpleViewAdapter;
 
 
@@ -41,32 +23,15 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
     private boolean mTwoPane;
     private String result;
     private RecyclerView recyclerView;
-    private Consts consts;
     private MainPresenter mainPresenter;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("TEST", "ROTATION TEST");
-        outState.putInt("CLICK", consts.getLastSelectionId());
-        outState.putInt("FOCUS", consts.getCurrentFocusedItemId());
-        super.onSaveInstanceState(outState);
+        super.onSaveInstanceState(mainPresenter.saveCurrentScreenState());
     }
-
 
     protected void afterConfigurationChange(Bundle savedInstanceState) {
         mainPresenter.afterConfigurationChange(savedInstanceState);
-  /*      if (savedInstanceState != null) {
-            Integer click = savedInstanceState.getInt("CLICK");
-            Integer focus = savedInstanceState.getInt("FOCUS");
-
-            if (click != -2) {
-
-                showDetailScreen(mTwoPane, consts.getLastClickedObj(), click);
-            }
-
-            if (focus != -1) {
-            }
-        }*/
     }
 
     @Override
@@ -79,17 +44,18 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_list);
         initViews();
-        consts = new Consts(this);
         setUpTwoPaneMode();
         mainPresenter = new MainPresenter(this);
         afterConfigurationChange(savedInstanceState);
         doNotShowDetailOnLandscapeInTablet();
-        showLastOpenedDetailScreen();
+        mainPresenter.showPreviousScreen();
 
         if (noConnectivity()) {
             showRetryScreen();
         } else {
-            getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);  // inicjacja loadera
+            mainPresenter.downloadTappticValues();
+
+       //     getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);
         }
     }
 
@@ -106,19 +72,12 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
             if (info != null) {
                 for (NetworkInfo networkInfo : info) {
                     if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                        //Toast.makeText(this, "Network available", Toast.LENGTH_SHORT).show();
                         return false;
                     }
                 }
             }
         }
         return true;
-    }
-
-    private void showLastOpenedDetailScreen() {
-        if (consts.getLastSelectionId() != -2) {
-            showDetailScreen(mTwoPane, consts.getLastClickedObj());
-        }
     }
 
     private void initViews() {
@@ -129,7 +88,6 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
         if (findViewById(R.id.data_detail_container) != null) {  // data_detail_container jest w layoucie activity_data_detail i jest to kontrolka NestedSctollView
             mTwoPane = true;
         }
-        consts.saveTwoPane(mTwoPane);
     }
 
     private void doNotShowDetailOnLandscapeInTablet() {
@@ -140,18 +98,15 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
                 v.setVisibility(View.GONE);
             }
         }
-        consts.saveTwoPane(mTwoPane);
+        //      consts.saveTwoPane(mTwoPane);
     }
 
-    public void setupRecyclerView(List<ElementOfTheTappticList> values, final boolean mTwoPane) {
-        final SimpleViewAdapter adapter = new SimpleViewAdapter(this, values, mTwoPane);
+ /*   public void setupRecyclerView(List<ElementOfTheTappticList> values, final boolean mTwoPane) {
+*//*        final SimpleViewAdapter adapter = new SimpleViewAdapter(this, values, mTwoPane);
         adapter.setListener(new SimpleViewAdapter.OnElementClickListener() {
             @Override
             public void onClick(ElementOfTheTappticList currentObject, int currentPosition) {
-                consts.saveCurrentOnClickId(currentPosition);
-                consts.saveCurrentClickedObjectImageUrl(currentObject.getImageUrl());
-                consts.saveCurrentClickedObjectName(currentObject.getName());
-                showDetailScreen(mTwoPane, currentObject);
+                mainPresenter.showDetailScreen(mTwoPane, currentObject);
             }
         });
 
@@ -159,43 +114,18 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
             @Override
             public void onFocus(View v, boolean hasFocus, int position) {
                 if (hasFocus) {
-                    consts.saveCurrentFocusId(position);
+                    //           consts.saveCurrentFocusId(position);
                 }
             }
-        });
+        });*//*
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-    }
+    }*/
 
-    private void showDetailScreen(boolean mTwoPanes, ElementOfTheTappticList obj) {
-        if (mTwoPanes) {
-            Bundle arguments = new Bundle();
-            arguments.putString(Keys.KEY, obj.getName());
-            consts.saveCurrentClickedObjectName(obj.getName());
-            consts.saveCurrentClickedObjectImageUrl(obj.getImageUrl());
-            arguments.putString(Keys.KLUCZ_IMAGE, obj.getImageUrl());   // tutaj musze przeslac Id
-            DataDetailFragment fragment = new DataDetailFragment();
-            fragment.setArguments(arguments);
 
-            FragmentManager supportFragmentManager = getSupportFragmentManager();
-
-            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.data_detail_container, fragment)
-                    .commit();
-        } else {
-            Intent intent = new Intent(this, DataDetailActivity.class);
-            intent.putExtra(Keys.KEY, obj.getName());
-            intent.putExtra(Keys.KLUCZ_IMAGE, obj.getImageUrl());
-            intent.putExtra(DataDetailActivity.TWO_PANE, true);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        }
-    }
-
-    public void parseReceivedData() {
+   /* public void parseReceivedData() {
+        // TODO move to presenter
         List<ElementOfTheTappticList> values = new ArrayList<>();
 
         try {
@@ -210,9 +140,9 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
             Toast.makeText(DataListActivity.this, "JSONArray Exception", Toast.LENGTH_SHORT).show();
         }
         setupRecyclerView(values, mTwoPane);
-    }
+    }*/
 
-    private LoaderManager.LoaderCallbacks<String> listLoaderCallbacks = new LoaderManager.LoaderCallbacks<String>() {
+/*    private LoaderManager.LoaderCallbacks<String> listLoaderCallbacks = new LoaderManager.LoaderCallbacks<String>() {
         @Override
         public Loader<String> onCreateLoader(int id, Bundle args) {
             return new StringLoader(getApplicationContext());
@@ -222,14 +152,14 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
         public void onLoadFinished(Loader<String> loader, String data) {
             Log.d("onLoadFinished", "data = " + data);
             setResult(data);
-            parseReceivedData();
+         //   parseReceivedData();
         }
 
         @Override
         public void onLoaderReset(Loader<String> loader) {
             setupRecyclerView(Collections.<ElementOfTheTappticList>emptyList(), mTwoPane);
         }
-    };
+    };*/
 
     public String getResult() {
         return result;
@@ -252,6 +182,18 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
     @Override
     public void finishActivity() {
         finish();
+    }
+
+    @Override
+    public void showTappticScreen() {
+
+    }
+
+    @Override
+    public void showTappticList(SimpleViewAdapter adapter) {
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
