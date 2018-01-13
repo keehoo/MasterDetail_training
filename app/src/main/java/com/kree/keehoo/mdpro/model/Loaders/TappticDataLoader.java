@@ -14,9 +14,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created by keehoo on 09.09.2016.
- */
 public class TappticDataLoader extends AsyncTaskLoader<String> {
 
     private static final String TAPPTIC_ADDRESS = "http://dev.tapptic.com/test/json.php";
@@ -33,9 +30,11 @@ public class TappticDataLoader extends AsyncTaskLoader<String> {
     protected void onStartLoading() {
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         IntentFilter filter = new IntentFilter(ACTION);
-        manager.registerReceiver(broadcastReceiver, filter);
+        manager.registerReceiver(broadcastReceiver, filter); // Could be used to force network call
         if (cachedData == null) forceLoad();
-        else super.deliverResult(cachedData);
+        else {
+            super.deliverResult(cachedData);
+        }
     }
 
     @Override
