@@ -17,11 +17,11 @@ import okhttp3.Response;
 /**
  * Created by keehoo on 09.09.2016.
  */
-public class StringLoader extends AsyncTaskLoader<String> {
+public class TappticDataLoader extends AsyncTaskLoader<String> {
 
     private static final String TAPPTIC_ADDRESS = "http://dev.tapptic.com/test/json.php";
 
-    public StringLoader(Context context) {
+    public TappticDataLoader(Context context) {
         super(context);
     }
 

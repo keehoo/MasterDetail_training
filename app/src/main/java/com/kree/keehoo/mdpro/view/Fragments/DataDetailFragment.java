@@ -1,17 +1,18 @@
-package view.Fragments;
+package com.kree.keehoo.mdpro.view.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kree.keehoo.mdpro.R;
 import com.kree.keehoo.mdpro.model.KeysAndConstants.ElementOfTheTappticList;
 import com.kree.keehoo.mdpro.model.KeysAndConstants.Keys;
-import com.kree.keehoo.mdpro.R;
 
 
 public class DataDetailFragment extends Fragment {
@@ -27,7 +28,7 @@ public class DataDetailFragment extends Fragment {
 
         if (getArguments().containsKey(Keys.KEY)) {
 
-            mItem = new ElementOfTheTappticList(getArguments().getString(Keys.KEY), getArguments().getString(Keys.KLUCZ_IMAGE));
+            mItem = new ElementOfTheTappticList(getArguments().getString(Keys.KEY), getArguments().getString(Keys.IMAGE_KEY));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
@@ -35,7 +36,7 @@ public class DataDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.getName());
             }
         } else {
-            // TODO: add exception handling
+            Log.e(getClass().getName(), "Argument did not contain " + Keys.KEY);
         }
     }
 

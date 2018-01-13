@@ -6,33 +6,37 @@ import android.content.SharedPreferences;
 import com.kree.keehoo.mdpro.R;
 
 
-public class Consts {
+public class PersistentValues {
 
     private static final String IMAGE = "IMAGE";
     private static final String NAME = "Name";
     private static final String CLICK = "CLICK";
     private static final String FOCUS = "FOCUS";
     private static final String TWO_PANE = "two_panes";
+    public static final int DEFAULT_FOCUS_VALUE = -1;
+    public static final int DEFAULT_LAST_CLICKED_ID_VALUE = -2;
+    public static final boolean DEFAULT_TWO_PANE_VALUE = false;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private static final String EMPTY_STRING = "";
 
-    public Consts(Context context) {
+    private static int currentFocusedItemId = -1;
+    private static int lastSelectionId = -2;
+    private static final String STRING_EMPTY = EMPTY_STRING;
+    private static String currentClickedObjectName = STRING_EMPTY;
+    private static String currentClickedObjectImageUrl = STRING_EMPTY;
+
+    public PersistentValues(Context context) {
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.tapptic_shared_preferences_file), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         getPreviousValues();
     }
 
-    private static int currentFocusedItemId = -1;
-    private static int lastSelectionId = -2;
-    public static final String STRING_EMPTY = "";
-    private static String currentClickedObjectName = STRING_EMPTY;
-    private static String currentClickedObjectImageUrl = STRING_EMPTY;
-
     public void resetValues() {
-        saveCurrentFocusId(-1);
+        saveCurrentFocusId(DEFAULT_FOCUS_VALUE);
         saveCurrentClickedObjectName(STRING_EMPTY);
-        saveCurrentOnClickId(-2);
+        saveCurrentOnClickId(DEFAULT_LAST_CLICKED_ID_VALUE);
         saveCurrentClickedObjectImageUrl(STRING_EMPTY);
     }
 
@@ -70,7 +74,7 @@ public class Consts {
     }
 
     public boolean isTwoPane() {
-        return sharedPreferences.getBoolean(TWO_PANE, false);
+        return sharedPreferences.getBoolean(TWO_PANE, DEFAULT_TWO_PANE_VALUE);
     }
 
     public ElementOfTheTappticList getLastClickedObj() {
@@ -80,8 +84,8 @@ public class Consts {
     private void getPreviousValues() {
         currentClickedObjectImageUrl = sharedPreferences.getString(IMAGE, STRING_EMPTY);
         currentClickedObjectName = sharedPreferences.getString(NAME, STRING_EMPTY);
-        lastSelectionId = sharedPreferences.getInt(CLICK, -2);
-        currentFocusedItemId = sharedPreferences.getInt(FOCUS, -1);
+        lastSelectionId = sharedPreferences.getInt(CLICK, DEFAULT_LAST_CLICKED_ID_VALUE);
+        currentFocusedItemId = sharedPreferences.getInt(FOCUS, DEFAULT_FOCUS_VALUE);
     }
 }
 

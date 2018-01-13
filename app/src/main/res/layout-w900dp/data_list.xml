@@ -9,7 +9,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="view.Activities.DataListActivity">
+    tools:context="com.kree.keehoo.mdpro.view.Activities.DataListActivity">
 
     <!--
     This layout is a two-pane layout for the Datas
@@ -27,7 +27,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="view.Activities.DataListActivity"
+        tools:context="com.kree.keehoo.mdpro.view.Activities.DataListActivity"
         tools:listitem="@layout/data_list_content" />
 
 

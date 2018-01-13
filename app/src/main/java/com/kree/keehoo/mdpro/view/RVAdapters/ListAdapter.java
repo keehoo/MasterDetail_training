@@ -1,4 +1,4 @@
-package view.RVAdapters;
+package com.kree.keehoo.mdpro.view.RVAdapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,28 +10,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.kree.keehoo.mdpro.model.KeysAndConstants.Consts;
-import com.kree.keehoo.mdpro.model.KeysAndConstants.ElementOfTheTappticList;
 import com.kree.keehoo.mdpro.R;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.ElementOfTheTappticList;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.PersistentValues;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 
-public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.SimpleViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SimpleViewHolder> {
 
     private final List<ElementOfTheTappticList> mValues;
     private Context context;
     private OnElementClickListener listener;
     private OnElementFocusListener focusListener;
-    private Consts consts;
+    private PersistentValues persistentValues;
 
 
-    public SimpleViewAdapter(Context context, List<ElementOfTheTappticList> items, boolean mTwoPanes) {
+    public ListAdapter(Context context, List<ElementOfTheTappticList> items) {
         mValues = items;
         this.context = context;
-        boolean mTwoPanes1 = mTwoPanes;
-        this.consts = new Consts(context);
+        this.persistentValues = new PersistentValues(context);
     }
 
     public void setListener(OnElementClickListener listener) {
@@ -57,7 +56,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
         holder.currentPosition = position;
         holder.elementOfTheTappticList = mValues.get(position);
         holder.getItemLayout().setSelected(false);
-        if (consts.getLastSelectionId() == position) {
+        if (persistentValues.getLastSelectionId() == position) {
             holder.getItemLayout().setSelected(true);
         }
 
@@ -82,9 +81,9 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
         ElementOfTheTappticList elementOfTheTappticList;
         private RelativeLayout itemLayout;
         int currentPosition;
-        SimpleViewAdapter adapter;
+        ListAdapter adapter;
 
-        public SimpleViewHolder(final View view, SimpleViewAdapter adapter) {
+        SimpleViewHolder(final View view, ListAdapter adapter) {
             super(view);
             name = (TextView) view.findViewById(R.id.id);
             image = (ImageView) view.findViewById(R.id.content);
@@ -99,7 +98,7 @@ public class SimpleViewAdapter extends RecyclerView.Adapter<SimpleViewAdapter.Si
             if (adapter.listener != null) {
                 listener.onClick(elementOfTheTappticList, currentPosition);
                 this.getItemLayout().setSelected(true);
-                consts.saveCurrentOnClickId(currentPosition);
+                persistentValues.saveCurrentOnClickId(currentPosition);
                 adapter.notifyDataSetChanged();
             }
         }

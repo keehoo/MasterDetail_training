@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context="view.Fragments.DataDetailFragment">
+    tools:context="com.kree.keehoo.mdpro.view.Fragments.DataDetailFragment">
 
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textIsSelectable="true"
-        tools:context="view.Fragments.DataDetailFragment" />
+        tools:context="com.kree.keehoo.mdpro.view.Fragments.DataDetailFragment" />
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textIsSelectable="true"
-        tools:context="view.Fragments.DataDetailFragment" />
+        tools:context="com.kree.keehoo.mdpro.view.Fragments.DataDetailFragment" />
 
 
 </LinearLayout>
