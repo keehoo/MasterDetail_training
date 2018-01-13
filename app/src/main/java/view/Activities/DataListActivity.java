@@ -1,4 +1,4 @@
-package com.kree.keehoo.mdpro.Activities;
+package view.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,13 +16,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.kree.keehoo.mdpro.Fragments.DataDetailFragment;
-import com.kree.keehoo.mdpro.KeysAndConstants.Consts;
-import com.kree.keehoo.mdpro.KeysAndConstants.ElementOfTheTappticList;
-import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
-import com.kree.keehoo.mdpro.Loaders.StringLoader;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.Consts;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.ElementOfTheTappticList;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.Keys;
 import com.kree.keehoo.mdpro.R;
-import com.kree.keehoo.mdpro.RVAdapters.SimpleViewAdapter;
+import com.kree.keehoo.mdpro.presenter.Loaders.StringLoader;
+import com.kree.keehoo.mdpro.presenter.MainPresenter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,13 +31,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import view.Activities.interfaces.MainActivityInterface;
+import view.Fragments.DataDetailFragment;
+import view.RVAdapters.SimpleViewAdapter;
 
-public class DataListActivity extends AppCompatActivity {
+
+public class DataListActivity extends AppCompatActivity implements MainActivityInterface {
 
     private boolean mTwoPane;
     private String result;
     private RecyclerView recyclerView;
     private Consts consts;
+    private MainPresenter mainPresenter;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -50,25 +54,19 @@ public class DataListActivity extends AppCompatActivity {
 
 
     protected void afterConfigurationChange(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            String test = savedInstanceState.getString("TEST");
+        mainPresenter.afterConfigurationChange(savedInstanceState);
+  /*      if (savedInstanceState != null) {
             Integer click = savedInstanceState.getInt("CLICK");
             Integer focus = savedInstanceState.getInt("FOCUS");
 
             if (click != -2) {
-                // Item has been clicked before
-                //  Toast.makeText(this, "Item has been clicked before: " + click, Toast.LENGTH_SHORT).show();
+
                 showDetailScreen(mTwoPane, consts.getLastClickedObj(), click);
             }
 
             if (focus != -1) {
-                // Toast.makeText(this, "Item has been focused on before: " + focus, Toast.LENGTH_SHORT).show();
-                // Item has been focused on before
             }
-
-          //  Toast.makeText(this, test + getResources().getConfiguration().orientation, Toast.LENGTH_SHORT).show();
-          //  Log.d("ORIENTATION", "" + getResources().getConfiguration().orientation);
-        }
+        }*/
     }
 
     @Override
@@ -83,6 +81,7 @@ public class DataListActivity extends AppCompatActivity {
         initViews();
         consts = new Consts(this);
         setUpTwoPaneMode();
+        mainPresenter = new MainPresenter(this);
         afterConfigurationChange(savedInstanceState);
         doNotShowDetailOnLandscapeInTablet();
         showLastOpenedDetailScreen();
@@ -118,7 +117,7 @@ public class DataListActivity extends AppCompatActivity {
 
     private void showLastOpenedDetailScreen() {
         if (consts.getLastSelectionId() != -2) {
-            showDetailScreen(mTwoPane, consts.getLastClickedObj(), consts.getLastSelectionId());
+            showDetailScreen(mTwoPane, consts.getLastClickedObj());
         }
     }
 
@@ -152,7 +151,7 @@ public class DataListActivity extends AppCompatActivity {
                 consts.saveCurrentOnClickId(currentPosition);
                 consts.saveCurrentClickedObjectImageUrl(currentObject.getImageUrl());
                 consts.saveCurrentClickedObjectName(currentObject.getName());
-                showDetailScreen(mTwoPane, currentObject, currentPosition);
+                showDetailScreen(mTwoPane, currentObject);
             }
         });
 
@@ -169,7 +168,7 @@ public class DataListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void showDetailScreen(boolean mTwoPanes, ElementOfTheTappticList obj, int position) {
+    private void showDetailScreen(boolean mTwoPanes, ElementOfTheTappticList obj) {
         if (mTwoPanes) {
             Bundle arguments = new Bundle();
             arguments.putString(Keys.KEY, obj.getName());
@@ -232,15 +231,31 @@ public class DataListActivity extends AppCompatActivity {
         }
     };
 
-
-    /**
-     * Getters & Setters
-     */
     public String getResult() {
         return result;
     }
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    @Override
+    public boolean isTwoPane() {
+        return mTwoPane;
+    }
+
+    @Override
+    public Context getActivityContext() {
+        return this;
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void startProperActivity(Intent intent) {
+        startActivity(intent);
     }
 }

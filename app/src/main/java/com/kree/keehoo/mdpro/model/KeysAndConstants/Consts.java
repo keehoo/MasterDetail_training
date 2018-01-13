@@ -1,4 +1,4 @@
-package com.kree.keehoo.mdpro.KeysAndConstants;
+package com.kree.keehoo.mdpro.model.KeysAndConstants;
 
 import android.content.Context;
 import android.content.SharedPreferences;

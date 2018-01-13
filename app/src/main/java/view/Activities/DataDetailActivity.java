@@ -1,13 +1,13 @@
-package com.kree.keehoo.mdpro.Activities;
+package view.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.kree.keehoo.mdpro.Fragments.DataDetailFragment;
-import com.kree.keehoo.mdpro.KeysAndConstants.Consts;
-import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
+import view.Fragments.DataDetailFragment;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.Consts;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.Keys;
 import com.kree.keehoo.mdpro.R;
 
 public class DataDetailActivity extends AppCompatActivity {

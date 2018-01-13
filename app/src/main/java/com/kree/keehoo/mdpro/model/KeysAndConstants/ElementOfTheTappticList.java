@@ -1,4 +1,4 @@
-package com.kree.keehoo.mdpro.KeysAndConstants;
+package com.kree.keehoo.mdpro.model.KeysAndConstants;
 
 /**
  * Created by keehoo on 08.09.2016.

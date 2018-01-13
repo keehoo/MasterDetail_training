@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.DataListActivity"
+            android:name="view.Activities.DataListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,15 +22,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.DataDetailActivity"
+            android:name="view.Activities.DataDetailActivity"
             android:label="@string/title_data_detail"
-            android:parentActivityName=".Activities.DataListActivity"
+            android:parentActivityName="view.Activities.DataListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.DataListActivity" />
+                android:value="view.Activities.DataListActivity" />
         </activity>
-        <activity android:name=".Activities.WaitForConnectivityActivity" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert">
+        <activity android:name="view.Activities.WaitForConnectivityActivity" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert">
 
 
         </activity>

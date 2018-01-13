@@ -1,4 +1,4 @@
-package com.kree.keehoo.mdpro.RVAdapters;
+package view.RVAdapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.kree.keehoo.mdpro.KeysAndConstants.Consts;
-import com.kree.keehoo.mdpro.KeysAndConstants.ElementOfTheTappticList;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.Consts;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.ElementOfTheTappticList;
 import com.kree.keehoo.mdpro.R;
 import com.squareup.picasso.Picasso;
 

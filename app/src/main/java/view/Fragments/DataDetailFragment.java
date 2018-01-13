@@ -1,4 +1,4 @@
-package com.kree.keehoo.mdpro.Fragments;
+package view.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kree.keehoo.mdpro.KeysAndConstants.ElementOfTheTappticList;
-import com.kree.keehoo.mdpro.KeysAndConstants.Keys;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.ElementOfTheTappticList;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.Keys;
 import com.kree.keehoo.mdpro.R;
 
 
