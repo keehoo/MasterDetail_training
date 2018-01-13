@@ -1,8 +1,8 @@
-*.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+
+TappticRecruitmentTask.iml
 .DS_Store
-/build
-/captures
+.gradle/
+
+MasterDetail_training.iml
+build/
+local.properties
