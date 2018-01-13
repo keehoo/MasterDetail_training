@@ -21,7 +21,6 @@ import view.RVAdapters.SimpleViewAdapter;
 public class DataListActivity extends AppCompatActivity implements MainActivityInterface {
 
     private boolean mTwoPane;
-    private String result;
     private RecyclerView recyclerView;
     private MainPresenter mainPresenter;
 
@@ -52,10 +51,9 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
 
         if (noConnectivity()) {
             showRetryScreen();
+            //TODO: additional presenter for connectivity screen
         } else {
             mainPresenter.downloadTappticValues();
-
-       //     getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);
         }
     }
 
@@ -98,75 +96,6 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
                 v.setVisibility(View.GONE);
             }
         }
-        //      consts.saveTwoPane(mTwoPane);
-    }
-
- /*   public void setupRecyclerView(List<ElementOfTheTappticList> values, final boolean mTwoPane) {
-*//*        final SimpleViewAdapter adapter = new SimpleViewAdapter(this, values, mTwoPane);
-        adapter.setListener(new SimpleViewAdapter.OnElementClickListener() {
-            @Override
-            public void onClick(ElementOfTheTappticList currentObject, int currentPosition) {
-                mainPresenter.showDetailScreen(mTwoPane, currentObject);
-            }
-        });
-
-        adapter.setFocusListener(new SimpleViewAdapter.OnElementFocusListener() {
-            @Override
-            public void onFocus(View v, boolean hasFocus, int position) {
-                if (hasFocus) {
-                    //           consts.saveCurrentFocusId(position);
-                }
-            }
-        });*//*
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
-    }*/
-
-
-   /* public void parseReceivedData() {
-        // TODO move to presenter
-        List<ElementOfTheTappticList> values = new ArrayList<>();
-
-        try {
-            JSONArray ja = new JSONArray(getResult());
-            values.clear();
-            for (int i = 0; i < ja.length(); i++) {
-                JSONObject jo = (JSONObject) ja.get(i);
-                values.add(new ElementOfTheTappticList(jo.getString("name"), jo.getString("image")));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(DataListActivity.this, "JSONArray Exception", Toast.LENGTH_SHORT).show();
-        }
-        setupRecyclerView(values, mTwoPane);
-    }*/
-
-/*    private LoaderManager.LoaderCallbacks<String> listLoaderCallbacks = new LoaderManager.LoaderCallbacks<String>() {
-        @Override
-        public Loader<String> onCreateLoader(int id, Bundle args) {
-            return new StringLoader(getApplicationContext());
-        }
-
-        @Override
-        public void onLoadFinished(Loader<String> loader, String data) {
-            Log.d("onLoadFinished", "data = " + data);
-            setResult(data);
-         //   parseReceivedData();
-        }
-
-        @Override
-        public void onLoaderReset(Loader<String> loader) {
-            setupRecyclerView(Collections.<ElementOfTheTappticList>emptyList(), mTwoPane);
-        }
-    };*/
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
     }
 
     @Override
