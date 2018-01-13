@@ -1,9 +1,7 @@
 package com.kree.keehoo.mdpro.presenter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -14,7 +12,9 @@ import com.kree.keehoo.mdpro.R;
 import com.kree.keehoo.mdpro.model.KeysAndConstants.Consts;
 import com.kree.keehoo.mdpro.model.KeysAndConstants.ElementOfTheTappticList;
 import com.kree.keehoo.mdpro.model.KeysAndConstants.Keys;
-import com.kree.keehoo.mdpro.presenter.Loaders.StringLoader;
+import com.kree.keehoo.mdpro.model.Loaders.StringLoader;
+import com.kree.keehoo.mdpro.model.MvpModel;
+import com.kree.keehoo.mdpro.model.MvpModelInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,16 +34,15 @@ import view.RVAdapters.SimpleViewAdapter;
 
 
 public class MainPresenter {
-    private Context context;
     private Consts consts;
     private Integer click;
     private MainActivityInterface view;
+    private final MvpModelInterface model;
 
-    public MainPresenter(MainActivityInterface view) {
+    public MainPresenter(MainActivityInterface view, Consts consts) {
         this.view = view;
-        context = view.getActivityContext();
-        consts = new Consts(context);
-        //  MvpModel model = new MvpModel(this);
+        this.consts = consts;
+        model = new MvpModel(consts);
         showPreviousScreen();
     }
 
@@ -142,7 +141,7 @@ public class MainPresenter {
     }
 
     public void downloadTappticValues() {
-        ((FragmentActivity) context).getSupportLoaderManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);
+        view.getLoadManager().initLoader(R.id.string_loader_id, null, listLoaderCallbacks);
     }
 
     public List<ElementOfTheTappticList> parseReceivedData(String data) {

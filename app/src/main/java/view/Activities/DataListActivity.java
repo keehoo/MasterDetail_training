@@ -6,12 +6,14 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.kree.keehoo.mdpro.R;
+import com.kree.keehoo.mdpro.model.KeysAndConstants.Consts;
 import com.kree.keehoo.mdpro.presenter.MainPresenter;
 
 import view.Activities.interfaces.MainActivityInterface;
@@ -44,7 +46,8 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
         setContentView(R.layout.activity_data_list);
         initViews();
         setUpTwoPaneMode();
-        mainPresenter = new MainPresenter(this);
+        Consts consts = new Consts(this);
+        mainPresenter = new MainPresenter(this, consts);
         afterConfigurationChange(savedInstanceState);
         doNotShowDetailOnLandscapeInTablet();
         mainPresenter.showPreviousScreen();
@@ -114,9 +117,10 @@ public class DataListActivity extends AppCompatActivity implements MainActivityI
     }
 
     @Override
-    public void showTappticScreen() {
-
+    public LoaderManager getLoadManager() {
+        return this.getSupportLoaderManager();
     }
+
 
     @Override
     public void showTappticList(SimpleViewAdapter adapter) {

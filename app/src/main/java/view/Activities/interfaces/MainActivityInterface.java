@@ -3,6 +3,7 @@ package view.Activities.interfaces;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
 
 import view.RVAdapters.SimpleViewAdapter;
 
@@ -22,7 +23,7 @@ public interface MainActivityInterface {
 
     void finishActivity();
 
-    void showTappticScreen();
+    LoaderManager getLoadManager();
 
     void showTappticList(SimpleViewAdapter adapter);
 }

@@ -1,4 +1,4 @@
-package com.kree.keehoo.mdpro.presenter.Loaders;
+package com.kree.keehoo.mdpro.model.Loaders;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
