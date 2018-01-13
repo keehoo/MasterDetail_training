@@ -2,7 +2,7 @@
 TappticRecruitmentTask.iml
 .DS_Store
 .gradle/
-
+.idea
 MasterDetail_training.iml
 build/
 local.properties
